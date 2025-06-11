@@ -22,6 +22,17 @@ To configure these settings:
 
 ### Required Secrets
 - `SESSIONIZE_SESSION_LIST_URL`: The URL endpoint for retrieving sessions from Sessionize
+
+> **Note:** To create the Sessionize session list URL:
+> 1. Log into your Sessionize account
+> 2. Navigate to the API / Embed tab
+> 3. Click "Create new endpoint"
+> 4. Select JSON as the format
+> 5. In the "Includes sessions" dropdown, select "All Except Declined"
+> 6. Click "Create"
+> 7. Once created, click the "Get Code" button
+> 8. Copy the Session List URL (the URL that ends with `/view/Sessions`)
+
 - `SLACK_WEBHOOK_URL`: The webhook URL for your Slack channel
 - `REPO_ACCESS_TOKEN`: A GitHub token with permissions to update repository variables
 
