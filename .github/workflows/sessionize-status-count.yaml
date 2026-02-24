@@ -1,0 +1,20 @@
+name: sessionize-status-count
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0,14 * * *" # 8AM and 6PM CST, daily
+
+jobs:
+  retrieve-session-list:
+    name: retrieve-session-list
+    runs-on: ubuntu-latest
+    steps:
+    - id: retrieve-sessions
+      name: Retrieve sessions
+      env:
+        SESSIONIZE_SESSION_LIST_URL: ${{ secrets.SESSIONIZE_SESSION_LIST_URL }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        SESSIONIZE_SESSION_STATUSES=$(curl -s $SESSIONIZE_SESSION_LIST_URL | jq -r '.[].sessions | map(.status) | group_by(.) | map({key:first, value:length}) | from_entries')
+        curl -s --location "$SLACK_WEBHOOK_URL" --header 'Content-Type: application/json' --data "$SESSIONIZE_SESSION_STATUSES"
